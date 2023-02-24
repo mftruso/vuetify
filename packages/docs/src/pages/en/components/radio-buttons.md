@@ -42,12 +42,6 @@ Radio-groups can be presented either as a row or a column, using their respectiv
 
 <example file="v-radio-group/prop-direction" />
 
-#### Mandatory
-
-Radio-groups are by default not mandatory. This can be changed with the **mandatory** prop.
-
-<example file="v-radio-group/prop-mandatory" />
-
 ### Slots
 
 #### Label
@@ -55,5 +49,3 @@ Radio-groups are by default not mandatory. This can be changed with the **mandat
 Radio Group labels can be defined in `label` slot - that will allow to use HTML content.
 
 <example file="v-radio-group/slot-label" />
-
-<backmatter />

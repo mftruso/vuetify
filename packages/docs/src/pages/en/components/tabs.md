@@ -34,17 +34,15 @@ The `v-tabs` component is a styled extension of [v-slide-group](/components/slid
 
 Make `v-tabs` line up with the `v-toolbar-title` component using the **align** prop (`v-app-bar-nav-icon` or `v-btn` must be used in `v-toolbar`).
 
-<example file="v-tabs/prop-align-title" />
-
-<promoted slug="vuetify-zero-theme-pro" />
+<example file="v-tabs/prop-align-tabs-title" />
 
 #### Align end
 
 The **align** prop can also align tabs to the center or end.
 
-<example file="v-tabs/prop-align-center" />
+<example file="v-tabs/prop-align-tabs-center" />
 
-<example file="v-tabs/prop-align-end" />
+<example file="v-tabs/prop-align-tabs-end" />
 
 #### Center active
 
@@ -72,7 +70,7 @@ The **grow** prop will make the tab items take up all available space with no li
 
 #### Stacked
 
-Using **stacked** prop you can have buttons that use both icons and text.
+Using **stacked** increases the `v-tabs` height to 72px to allow for both icons and text to be displayed.
 
 <example file="v-tabs/prop-stacked" />
 
@@ -113,5 +111,3 @@ Tabs can be dynamically added and removed. In this example when we add a new tab
 You can use a menu to hold additional tabs, swapping them out on the fly.
 
 <example file="v-tabs/misc-overflow-to-menu" />
-
-<backmatter />

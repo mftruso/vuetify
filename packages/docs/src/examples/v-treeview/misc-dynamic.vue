@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="bg-indigo text-h5">
+    <v-card-title class="bg-indigo text-white text-h5">
       User Directory
     </v-card-title>
     <div class="pa-4 d-flex justify-space-between">
@@ -24,7 +24,7 @@
         <v-scroll-y-transition mode="out-in">
           <div
             v-if="!selectedUser"
-            class="text-h6 grey--text text--lighten-1 font-weight-light"
+            class="text-h6 text-grey-lighten-1 font-weight-light"
             style="align-self: center;"
           >
             Select a User
@@ -61,7 +61,7 @@
               tag="v-card-text"
             >
               <v-col
-                class="text-right mr-4"
+                class="text-right me-4 mb-2"
                 tag="strong"
                 cols="5"
               >
@@ -69,7 +69,7 @@
               </v-col>
               <v-col>{{ selectedUser.company.name }}</v-col>
               <v-col
-                class="text-right mr-4"
+                class="text-right me-4 mb-2"
                 tag="strong"
                 cols="5"
               >
@@ -82,7 +82,7 @@
                 >{{ selectedUser.website }}</a>
               </v-col>
               <v-col
-                class="text-right mr-4"
+                class="text-right me-4 mb-2"
                 tag="strong"
                 cols="5"
               >

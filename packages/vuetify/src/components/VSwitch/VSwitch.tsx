@@ -8,13 +8,20 @@ import { VProgressCircular } from '@/components/VProgressCircular'
 
 // Composables
 import { LoaderSlot, useLoader } from '@/composables/loader'
+import { useFocus } from '@/composables/focus'
 import { useProxiedModel } from '@/composables/proxiedModel'
 
 // Utility
 import { computed, ref } from 'vue'
-import { defineComponent, filterInputAttrs, getUid, useRender } from '@/util'
+import { filterInputAttrs, genericComponent, getUid, useRender } from '@/util'
 
-export const VSwitch = defineComponent({
+// Types
+import type { VInputSlots } from '@/components/VInput/VInput'
+import type { VSelectionControlSlots } from '@/components/VSelectionControl/VSelectionControl'
+
+export type VSwitchSlots = VInputSlots & VSelectionControlSlots
+
+export const VSwitch = genericComponent<VSwitchSlots>()({
   name: 'VSwitch',
 
   inheritAttrs: false,
@@ -33,6 +40,7 @@ export const VSwitch = defineComponent({
   },
 
   emits: {
+    'update:focused': (focused: boolean) => true,
     'update:modelValue': () => true,
     'update:indeterminate': (val: boolean) => true,
   },
@@ -41,6 +49,7 @@ export const VSwitch = defineComponent({
     const indeterminate = useProxiedModel(props, 'indeterminate')
     const model = useProxiedModel(props, 'modelValue')
     const { loaderClasses } = useLoader(props)
+    const { isFocused, focus, blur } = useFocus(props)
 
     const loaderColor = computed(() => {
       return typeof props.loading === 'string' && props.loading !== ''
@@ -78,11 +87,13 @@ export const VSwitch = defineComponent({
           { ...inputAttrs }
           { ...inputProps }
           id={ id.value }
+          focused={ isFocused.value }
         >
           {{
             ...slots,
             default: ({
               id,
+              messagesId,
               isDisabled,
               isReadonly,
               isValid,
@@ -92,22 +103,26 @@ export const VSwitch = defineComponent({
                 { ...controlProps }
                 v-model={ model.value }
                 id={ id.value }
+                aria-describedby={ messagesId.value }
                 type="checkbox"
                 onUpdate:modelValue={ onChange }
                 aria-checked={ indeterminate.value ? 'mixed' : undefined }
                 disabled={ isDisabled.value }
                 readonly={ isReadonly.value }
+                onFocus={ focus }
+                onBlur={ blur }
                 { ...controlAttrs }
               >
                 {{
                   ...slots,
                   default: () => (<div class="v-switch__track" onClick={ onClick }></div>),
-                  input: ({ textColorClasses }) => (
+                  input: ({ textColorClasses, textColorStyles }) => (
                     <div
                       class={[
                         'v-switch__thumb',
                         textColorClasses.value,
                       ]}
+                      style={ textColorStyles.value }
                     >
                       { props.loading && (
                         <LoaderSlot

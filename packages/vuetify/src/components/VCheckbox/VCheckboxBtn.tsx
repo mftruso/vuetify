@@ -1,13 +1,14 @@
 // Components
-import { makeSelectionControlProps, VSelectionControl } from '../VSelectionControl/VSelectionControl'
+import type { VSelectionControlSlots } from '@/components/VSelectionControl/VSelectionControl'
+import { makeSelectionControlProps, VSelectionControl } from '@/components/VSelectionControl/VSelectionControl'
 
 // Composables
-import { useProxiedModel } from '@/composables/proxiedModel'
 import { IconValue } from '@/composables/icons'
+import { useProxiedModel } from '@/composables/proxiedModel'
 
 // Utilities
 import { computed } from 'vue'
-import { defineComponent, pick, propsFactory, useRender } from '@/util'
+import { genericComponent, pick, propsFactory, useRender } from '@/util'
 
 // Types
 import type { ExtractPropTypes } from 'vue'
@@ -23,9 +24,9 @@ export const makeVCheckboxBtnProps = propsFactory({
     falseIcon: '$checkboxOff',
     trueIcon: '$checkboxOn',
   }),
-}, 'VCheckboxBtn')
+}, 'v-checkbox-btn')
 
-export const VCheckboxBtn = defineComponent({
+export const VCheckboxBtn = genericComponent<VSelectionControlSlots>()({
   name: 'VCheckboxBtn',
 
   props: makeVCheckboxBtnProps(),

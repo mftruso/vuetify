@@ -14,11 +14,11 @@ import { useProxiedModel } from '@/composables/proxiedModel'
 
 // Utilities
 import { computed, toRef } from 'vue'
-import { defineComponent, useRender } from '@/util'
+import { convertToUnit, genericComponent, useRender } from '@/util'
 
 // Types
-import { VTabsSymbol } from './shared'
 import type { PropType } from 'vue'
+import { VTabsSymbol } from './shared'
 
 export type TabItem = string | Record<string, any>
 
@@ -32,7 +32,7 @@ function parseItems (items: TabItem[] | undefined) {
   })
 }
 
-export const VTabs = defineComponent({
+export const VTabs = genericComponent()({
   name: 'VTabs',
 
   props: {
@@ -58,9 +58,12 @@ export const VTabs = defineComponent({
       default: undefined,
     },
     hideSlider: Boolean,
-    optional: Boolean,
     sliderColor: String,
     modelValue: null,
+    mandatory: {
+      type: [Boolean, String] as PropType<boolean | 'force'>,
+      default: 'force',
+    },
 
     ...makeDensityProps(),
     ...makeTagProps(),
@@ -102,10 +105,13 @@ export const VTabs = defineComponent({
           densityClasses.value,
           backgroundColorClasses.value,
         ]}
-        style={backgroundColorStyles.value}
+        style={[
+          { '--v-tabs-height': convertToUnit(props.height) },
+          backgroundColorStyles.value,
+        ]}
         role="tablist"
         symbol={ VTabsSymbol }
-        mandatory="force"
+        mandatory={ props.mandatory }
         direction={ props.direction }
       >
         { slots.default ? slots.default() : parsedItems.value.map(item => (

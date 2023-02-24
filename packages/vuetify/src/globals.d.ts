@@ -70,6 +70,7 @@ declare global {
 
   export const __VUETIFY_VERSION__: string
   export const __REQUIRED_VUE__: string
+  export const __VUE_OPTIONS_API__: boolean | undefined
 
   namespace JSX {
     interface Element extends VNode {}
@@ -97,6 +98,10 @@ declare module '@vue/runtime-core' {
   // eslint-disable-next-line max-len
   export interface ComponentOptionsBase<Props, RawBindings, D, C extends ComputedOptions, M extends MethodOptions, Mixin extends ComponentOptionsMixin, Extends extends ComponentOptionsMixin, E extends EmitsOptions, EE extends string = string, Defaults = {}> {
     aliasName?: string
+  }
+
+  export interface App {
+    $nuxt?: { hook: (name: string, fn: () => void) => void }
   }
 }
 

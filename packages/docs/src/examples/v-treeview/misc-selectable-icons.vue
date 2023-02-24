@@ -34,7 +34,7 @@
           <div
             v-if="selectedBreweries.length === 0"
             key="title"
-            class="text-h6 font-weight-light grey--text pa-4 text-center"
+            class="text-h6 font-weight-light text-grey pa-4 text-center"
           >
             Select your favorite breweries
           </div>
@@ -53,9 +53,10 @@
               <v-icon
                 start
                 size="small"
-                icon="mdi-beer"
-              ></v-icon>
-              {{ brewery.name }}
+              >
+                mdi-beer
+              </v-icon>
+              {{ selection.name }}
             </v-chip>
           </v-scroll-x-transition>
         </v-card-text>
@@ -66,8 +67,8 @@
 
     <v-card-actions>
       <v-btn
-        text
-        @click="selection = []"
+        variant="text"
+        @click="tree = []"
       >
         Reset
       </v-btn>
@@ -76,7 +77,7 @@
 
       <v-btn
         color="green-darken-1"
-        variant="outlined"
+        variant="flat"
       >
         Save
         <v-icon end>

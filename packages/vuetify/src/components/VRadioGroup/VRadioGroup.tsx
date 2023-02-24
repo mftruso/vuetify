@@ -2,21 +2,26 @@
 import './VRadioGroup.sass'
 
 // Components
-import { filterControlProps, makeSelectionControlProps } from '@/components/VSelectionControl/VSelectionControl'
+import { filterControlProps } from '@/components/VSelectionControl/VSelectionControl'
 import { filterInputProps, makeVInputProps, VInput } from '@/components/VInput/VInput'
+import { makeSelectionControlGroupProps, VSelectionControlGroup } from '@/components/VSelectionControlGroup/VSelectionControlGroup'
 import { VLabel } from '@/components/VLabel'
-import { VSelectionControlGroup } from '@/components/VSelectionControlGroup'
 
 // Composables
 import { IconValue } from '@/composables/icons'
-import { provideDefaults } from '@/composables/defaults'
 import { useProxiedModel } from '@/composables/proxiedModel'
 
 // Utilities
-import { computed, toRef } from 'vue'
-import { defineComponent, excludeProps, filterInputAttrs, getUid, useRender } from '@/util'
+import { computed } from 'vue'
+import { filterInputAttrs, genericComponent, getUid, omit, useRender } from '@/util'
 
-export const VRadioGroup = defineComponent({
+// Types
+import type { VInputSlots } from '@/components/VInput/VInput'
+import type { VSelectionControlSlots } from '@/components/VSelectionControl/VSelectionControl'
+
+export type VRadioGroupSlots = VInputSlots & VSelectionControlSlots
+
+export const VRadioGroup = genericComponent<VRadioGroupSlots>()({
   name: 'VRadioGroup',
 
   inheritAttrs: false,
@@ -28,7 +33,7 @@ export const VRadioGroup = defineComponent({
     },
 
     ...makeVInputProps(),
-    ...excludeProps(makeSelectionControlProps(), ['multiple']),
+    ...omit(makeSelectionControlGroupProps(), ['multiple']),
 
     trueIcon: {
       type: IconValue,
@@ -52,13 +57,6 @@ export const VRadioGroup = defineComponent({
     const uid = getUid()
     const id = computed(() => props.id || `radio-group-${uid}`)
     const model = useProxiedModel(props, 'modelValue')
-
-    provideDefaults({
-      VRadio: {
-        color: toRef(props, 'color'),
-        density: toRef(props, 'density'),
-      },
-    })
 
     useRender(() => {
       const [inputAttrs, controlAttrs] = filterInputAttrs(attrs)
@@ -86,12 +84,13 @@ export const VRadioGroup = defineComponent({
             ...slots,
             default: ({
               id,
+              messagesId,
               isDisabled,
               isReadonly,
             }) => (
               <>
                 { label && (
-                  <VLabel for={ id.value } clickable>
+                  <VLabel id={ id.value }>
                     { label }
                   </VLabel>
                 ) }
@@ -99,11 +98,14 @@ export const VRadioGroup = defineComponent({
                 <VSelectionControlGroup
                   { ...controlProps }
                   id={ id.value }
+                  aria-describedby={ messagesId.value }
+                  defaultsTarget="VRadio"
                   trueIcon={ props.trueIcon }
                   falseIcon={ props.falseIcon }
                   type={ props.type }
                   disabled={ isDisabled.value }
                   readonly={ isReadonly.value }
+                  aria-labelledby={ label ? id.value : undefined }
                   { ...controlAttrs }
                   v-model={ model.value }
                   v-slots={ slots }
